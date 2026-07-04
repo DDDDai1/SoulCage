@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="CPP_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.vs" />
+      <excludeFolder url="file://$MODULE_DIR$/Binaries" />
+      <excludeFolder url="file://$MODULE_DIR$/Config" />
+      <excludeFolder url="file://$MODULE_DIR$/Content/Collections" />
+      <excludeFolder url="file://$MODULE_DIR$/Content/Developers" />
+      <excludeFolder url="file://$MODULE_DIR$/DerivedDataCache" />
+      <excludeFolder url="file://$MODULE_DIR$/Intermediate" />
+      <excludeFolder url="file://$MODULE_DIR$/Saved" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
