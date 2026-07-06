@@ -10,6 +10,8 @@
       <excludeFolder url="file://$MODULE_DIR$/DerivedDataCache" />
       <excludeFolder url="file://$MODULE_DIR$/Intermediate" />
       <excludeFolder url="file://$MODULE_DIR$/Saved" />
+      <excludeFolder url="file://$MODULE_DIR$/Content/ParagonMinions" />
+      <excludeFolder url="file://$MODULE_DIR$/Content/SciFITrooper_Man_03" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
