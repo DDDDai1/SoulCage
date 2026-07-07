@@ -6,6 +6,11 @@
 #include "Character/SoulCageCharacterBase.h"
 #include "SoulCageCharacter.generated.h"
 
+class USpringArmComponent;
+class UCameraComponent;
+class UDataAsset_InputConfig;
+struct FInputActionValue;
+
 /**
  * 
  */
@@ -14,4 +19,33 @@ class SOULCAGE_API ASoulCageCharacter : public ASoulCageCharacterBase
 {
 	GENERATED_BODY()
 	
+public:
+	ASoulCageCharacter();
+
+protected:
+	virtual void BeginPlay() override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+private:
+
+#pragma region Components
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
+	USpringArmComponent* CameraBoom;
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
+	UCameraComponent* FollowCamera;
+
+#pragma endregion
+
+#pragma region Inputs
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", meta = (AllowPrivateAccess = "true"))
+	UDataAsset_InputConfig* InputConfigDataAsset;
+
+	void Input_Move(const FInputActionValue& Value);
+
+	void Input_Look(const FInputActionValue& Value);
+
+#pragma endregion
+
 };
