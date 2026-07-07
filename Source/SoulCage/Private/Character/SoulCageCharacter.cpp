@@ -5,14 +5,35 @@
 #include "EnhancedInputSubsystems.h"
 #include "DataAssets/Input/DataAsset_InputConfig.h"
 #include "Components/Input/SoulCageInputComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Camera/CameraComponent.h"
 #include "SoulCageGameplayTags.h"
 
 ASoulCageCharacter::ASoulCageCharacter()
 {
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
+
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	CameraBoom->SetupAttachment(GetRootComponent());
+	CameraBoom->TargetArmLength = 400.f;
+	CameraBoom->SocketOffset = FVector(0.F, 55.f, 65.f);
+	CameraBoom->bUsePawnControlRotation = true;
+	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
+	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	FollowCamera->bUsePawnControlRotation = false;
+
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->RotationRate = FRotator(0.f, 500.f, 0.f);
+	GetCharacterMovement()->MaxWalkSpeed = 400.f;
+	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 }
 
 void ASoulCageCharacter::BeginPlay()
 {
+	Super::BeginPlay();
 }
 
 void ASoulCageCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -29,8 +50,8 @@ void ASoulCageCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 	auto* SoulCageInputComponent = CastChecked<USoulCageInputComponent>(PlayerInputComponent);
 
-	SoulCageInputComponent->BindNativeInputAction(InputConfigDataAsset, SoulCageGameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &ThisClass::Input_Move);
-	SoulCageInputComponent->BindNativeInputAction(InputConfigDataAsset, SoulCageGameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &ThisClass::Input_Look);
+	SoulCageInputComponent->BindNativeInputAction(InputConfigDataAsset, SoulCageGameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &ASoulCageCharacter::Input_Move);
+	SoulCageInputComponent->BindNativeInputAction(InputConfigDataAsset, SoulCageGameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &ASoulCageCharacter::Input_Look);
 }
 
 void ASoulCageCharacter::Input_Move(const FInputActionValue& Value)
