@@ -3,3 +3,14 @@
 
 #include "AnimInstance/SoulCageBaseAniminstance.h"
 
+#include "SoulCageFunctionLibrary.h"
+
+bool USoulCageBaseAniminstance::DoesOwnerHaveTag(FGameplayTag TagToCheck) const
+{
+	if (APawn* OwningPawn = TryGetPawnOwner())
+	{
+		return USoulCageFunctionLibrary::NativeDoesActorHaveTag(OwningPawn, TagToCheck);
+	}
+
+    return false;
+}

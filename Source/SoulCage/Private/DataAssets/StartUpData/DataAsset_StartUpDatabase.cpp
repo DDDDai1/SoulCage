@@ -2,4 +2,32 @@
 
 
 #include "DataAssets/StartUpData/DataAsset_StartUpDatabase.h"
+#include "AbilitySystem/SoulCageAbilitySystemComponent.h"
+#include "AbilitySystem/Abilities/SoulCageGameplayAbility.h"
 
+void UDataAsset_StartUpDatabase::GiveToAbilitySystemComponent(USoulCageAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
+{
+	check(InASCToGive);
+
+	GrantAbilities(ActivateOnGivenAbilities, InASCToGive, ApplyLevel);
+	GrantAbilities(ReactiveAbilities, InASCToGive, ApplyLevel);
+}
+
+void UDataAsset_StartUpDatabase::GrantAbilities(const TArray<TSubclassOf<USoulCageGameplayAbility>>& InAbilitiesToGive, USoulCageAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
+{
+	if (InAbilitiesToGive.IsEmpty())
+	{
+		return;
+	}
+
+	for (const TSubclassOf< USoulCageGameplayAbility>& Ability : InAbilitiesToGive)
+	{
+		if (!Ability)	continue;
+
+		FGameplayAbilitySpec AbilitySpec(Ability);
+		AbilitySpec.SourceObject = InASCToGive->GetAvatarActor();
+		AbilitySpec.Level = ApplyLevel;
+
+		InASCToGive->GiveAbility(AbilitySpec);
+	}
+}

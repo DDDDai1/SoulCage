@@ -8,6 +8,7 @@
 #include "AnimInstance/SoulCageBaseAniminstance.h"
 #include "SoulCageHeroLinkedAnimLayer.generated.h"
 
+class USoulCageHeroAnimInstance;
 /**
  * 
  */
@@ -16,4 +17,8 @@ class SOULCAGE_API USoulCageHeroLinkedAnimLayer : public USoulCageBaseAniminstan
 {
 	GENERATED_BODY()
 	
+public:
+	UFUNCTION(BlueprintPure, meta = (NotBlueprintThreadSafe))
+	USoulCageHeroAnimInstance* GetHeroAnimInstance() const;
+
 };

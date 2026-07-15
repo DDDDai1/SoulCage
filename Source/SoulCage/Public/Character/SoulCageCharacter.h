@@ -23,6 +23,10 @@ public:
 	ASoulCageCharacter();
 
 protected:
+	//~ Begin APawn Interface
+	virtual void PossessedBy(AController* NewController) override;
+	//~ End APawn Interface
+
 	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 private:
@@ -34,6 +38,9 @@ private:
 
 	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TObjectPtr<USkeletalMeshComponent> Weapon;
 
 #pragma endregion
 

@@ -1,6 +1,7 @@
 
 #include "Character/SoulCageCharacterBase.h"
-
+#include "AbilitySystem/SoulCageAbilitySystemComponent.h"
+#include "AbilitySystem/SoulCageAttributeSet.h"
 
 ASoulCageCharacterBase::ASoulCageCharacterBase()
 {
@@ -9,16 +10,26 @@ ASoulCageCharacterBase::ASoulCageCharacterBase()
 
 	GetMesh()->bReceivesDecals = false;
 
+	SoulCageAbilitySystemComponent = CreateDefaultSubobject<USoulCageAbilitySystemComponent>(TEXT("SoulCageAbilitySystemComponent"));
 
-	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
-	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
-	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	SoulCageAttributeSet = CreateDefaultSubobject<USoulCageAttributeSet>(TEXT("SoulCageAttributeSet"));
 }
 
-void ASoulCageCharacterBase::BeginPlay()
+UAbilitySystemComponent* ASoulCageCharacterBase::GetAbilitySystemComponent() const
 {
-	Super::BeginPlay();
-	
+	return GetSoulCageAbilitySystemComponent();
+}
+
+void ASoulCageCharacterBase::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (SoulCageAbilitySystemComponent)
+	{
+		SoulCageAbilitySystemComponent->InitAbilityActorInfo(this, this);
+
+		ensureMsgf(!CharacterStartUpData.IsNull(),TEXT("Forgot to assign start up data to %s"),*GetName());
+	}
 }
 
 

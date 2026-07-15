@@ -5,6 +5,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "Animation/AnimInstance.h"
 #include "SoulCageBaseAniminstance.generated.h"
 
@@ -16,4 +17,7 @@ class SOULCAGE_API USoulCageBaseAniminstance : public UAnimInstance
 {
 	GENERATED_BODY()
 	
+protected:
+	UFUNCTION(BlueprintPure, meta = (BlueprintThreadSafe))
+	bool DoesOwnerHaveTag(FGameplayTag TagToCheck) const;
 };

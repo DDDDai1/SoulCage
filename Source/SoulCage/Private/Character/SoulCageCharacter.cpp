@@ -9,6 +9,9 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
 #include "SoulCageGameplayTags.h"
+#include "AbilitySystem/SoulCageAbilitySystemComponent.h"
+#include "AbilitySystem/SoulCageAttributeSet.h"
+#include "DataAssets/StartUpData/DataAsset_HeroStartUpDatabase.h"
 
 ASoulCageCharacter::ASoulCageCharacter()
 {
@@ -29,6 +32,23 @@ ASoulCageCharacter::ASoulCageCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 500.f, 0.f);
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
+
+	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
+	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
+	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+void ASoulCageCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (!CharacterStartUpData.IsNull())
+	{
+		if (UDataAsset_StartUpDatabase* LoadedData = CharacterStartUpData.LoadSynchronous())
+		{
+			LoadedData->GiveToAbilitySystemComponent(SoulCageAbilitySystemComponent);
+		}
+	}
 }
 
 void ASoulCageCharacter::BeginPlay()
